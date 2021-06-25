@@ -19,7 +19,7 @@
     <br />
     <h3>Deck Composition</h3>
     <br />
-    <ul id="deckComposition"></ul>
+    <ol id="deckComposition"></ol>
     <br />
 </form>
 @section scripts{
@@ -37,7 +37,7 @@ function loadDeck() {
     $.getJSON('/api/Deck?' + $("#saveDeckForm").serialize(),
         function (decksJsonPayload) {
         $(decksJsonPayload).each(function (i, item) {
-            $('#deckComposition').append('<li>' + item.CardNames + '</li>')
+            $('#deckComposition').append('<li>' + item.CardNames + '</li>') 
         });
     });
 };
