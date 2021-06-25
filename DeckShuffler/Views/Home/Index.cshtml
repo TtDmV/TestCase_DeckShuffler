@@ -1,0 +1,57 @@
+﻿<div id ="body">
+    <br />
+    <ul id="decks"></ul>
+    <br />
+</div>
+<form id="saveDeckForm" method="post">
+    <h3>Create a new Deck</h3>
+    <p>
+        <label for="deckName">Deck Name:</label><br />
+        <input type="text" name="Name" />
+    </p>
+    <input type="button" id="saveDeck" value="Save Deck" /> 
+    <input type="button" id="getDeck" value="Get Deck" /> 
+</form>
+@section scripts{
+<script type="text/javascript">
+function loadDeckList() {
+    setTimeout(function () { //Сделал через таймаут, не смог быстро разобраться в создании цепочки последовательных вызовов. Потратил 4 лишних часа.
+        $.getJSON('/api/Deck', function (decksJsonPayload) {
+            $(decksJsonPayload).each(function (i, item) {
+                $('#decks').append('<li>' + item.Name + '</li>');
+            });
+        });
+    }, 300);
+};
+function loadDeck() {
+    setTimeout(function () { //Сделал через таймаут, не смог быстро разобраться в создании цепочки последовательных вызовов. Потратил 4 лишних часа.
+        $.getJSON('/api/Deck?name={name}', $("#saveDeckForm").serialize(),
+        "json")
+    }, 100);
+};
+function postDeck() {
+    $.post("/api/Deck",
+    $("#saveDeckForm").serialize(),
+    "json")
+        .fail(function(){
+            alert ("Creation failed. Check data")
+        })
+};
+function clearDeckList() {
+    $('#decks').empty()
+};
+
+
+$(function main() {
+    loadDeckList();
+    $('#saveDeck').click(function () {
+        postDeck();
+        clearDeckList();
+        loadDeckList();
+    });
+    $('#getDeck').click(function () {
+        loadDeck();
+    });
+});
+</script>
+}
