@@ -30,8 +30,8 @@ namespace DeckShuffler.Services
 
             if (ctx != null)
             {
-                var deckByName = ((Deck[])ctx.Cache[CacheKey]).Where(d => d.Name == deckName).FirstOrDefault().GetDeck(); // не делаем проверку на единственное значение, проверим на этапе создания
-                if (deckByName != null) return deckByName; 
+                var deckByName = ((Deck[])ctx.Cache[CacheKey]).Where(d => d.Name == deckName).FirstOrDefault(); // не делаем проверку на единственное значение, проверим на этапе создания
+                if (deckByName != null) return deckByName.GetDeck(); 
             }
 
             Console.WriteLine("Deck not found");

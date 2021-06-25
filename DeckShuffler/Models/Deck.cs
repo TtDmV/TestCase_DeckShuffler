@@ -10,8 +10,8 @@ namespace DeckShuffler.Models
 
     {
         public string Name { get; set; }
-        private List<Card> Cards = new List<Card>(); 
-        private List<string> CardNames =  new List<string>(); 
+        private List<Card> Cards = new List<Card>();
+        public List<string> CardNames =  new List<string>(); 
         
         public Deck GetDeck()
         {

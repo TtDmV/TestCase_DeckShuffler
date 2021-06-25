@@ -2,6 +2,9 @@
     <br />
     <ul id="decks"></ul>
     <br />
+    @*<br />
+    <ul id="deckComposition"></ul>
+    <br />*@
 </div>
 <form id="saveDeckForm" method="post">
     <h3>Create a new Deck</h3>
@@ -11,6 +14,13 @@
     </p>
     <input type="button" id="saveDeck" value="Save Deck" /> 
     <input type="button" id="getDeck" value="Get Deck" /> 
+</form>
+<form id="deckComp" method="post">
+    <br />
+    <h3>Deck Composition</h3>
+    <br />
+    <ul id="deckComposition"></ul>
+    <br />
 </form>
 @section scripts{
 <script type="text/javascript">
@@ -24,10 +34,12 @@ function loadDeckList() {
     }, 300);
 };
 function loadDeck() {
-    setTimeout(function () { //Сделал через таймаут, не смог быстро разобраться в создании цепочки последовательных вызовов. Потратил 4 лишних часа.
-        $.getJSON('/api/Deck?name={name}', $("#saveDeckForm").serialize(),
-        "json")
-    }, 100);
+    $.getJSON('/api/Deck?' + $("#saveDeckForm").serialize(),
+        function (decksJsonPayload) {
+        $(decksJsonPayload).each(function (i, item) {
+            $('#deckComposition').append('<li>' + item.CardNames + '</li>')
+        });
+    });
 };
 function postDeck() {
     $.post("/api/Deck",
