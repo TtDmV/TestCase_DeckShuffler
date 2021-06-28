@@ -42,13 +42,12 @@ namespace DeckShuffler.Services
         {
             List<Card> shuffledDeck = cards;
             Random rand = new Random();
-            for (int i = 1; i <= 20; i++)
+            for (int i = 1; i <= 200; i++)
             {
-                int rndSplitCount = ((int)Math.Floor((decimal)(cards.Count / 2))  + rand.Next( - (int)Math.Floor((decimal)(cards.Count / 4)), (int)Math.Floor((decimal)(cards.Count/4)))); //Рандом в четверть длины колоды.
+                int pm = (int)Math.Floor((decimal)(cards.Count / 8));
+                int rndSplitCount = ((int)Math.Floor((decimal)(cards.Count / 2))  + rand.Next(- pm, pm)); 
                 List<Card> tmp1 = shuffledDeck.Take(rndSplitCount).ToList<Card>();
                 List<Card> tmp2 = shuffledDeck.Skip(rndSplitCount).Take(cards.Count() - rndSplitCount).ToList<Card>();
-                var tt = (cards.Count() - rndSplitCount);
-                //tmp2.RemoveRange(0, (cards.Count() - rndSplitCount));
                 shuffledDeck.Clear();
                 shuffledDeck.AddRange(tmp2);
                 shuffledDeck.AddRange(tmp1);

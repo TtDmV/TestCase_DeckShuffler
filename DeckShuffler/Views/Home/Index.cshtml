@@ -7,7 +7,7 @@
     <br />*@
 </div>
 <form id="saveDeckForm" method="post">
-    <h3>Create a new Deck</h3>
+    <h3>Tasks</h3>
     <p>
         <label for="deckName">Deck Name:</label><br />
         <input type="text" name="Name" />
@@ -15,6 +15,7 @@
     
         <input type="button" id="saveDeck" value="Save Deck" />      
         <input type="button" id="getDeck" value="Get Deck" />
+        <input type="button" id="deleteDeck" value="Delete Deck" />
     <p>
         <br />
         <select id="shuffleMethod">
@@ -60,14 +61,14 @@ function loadDeck() {
 function shuffleDeck() {
     var e = document.getElementById("shuffleMethod");
     var mtd = e.options[e.selectedIndex].value;
-    setTimeout(function () {
-        $.getJSON('/api/Deck?' + $("#saveDeckForm").serialize() + '&' + 'method=' + mtd,
+        ($.getJSON('/api/Deck?' + $("#saveDeckForm").serialize() + '&' + 'method=' + mtd,
         function (decksJsonPayload) {
         $(decksJsonPayload).each(function (i, item) {
             $('#deckComposition').append('<li>' + item + '</li>') 
         });
+        })).fail(function () {
+            alert("Shuffle failed. Check data")
         });
-    }, 300);
 };
 function postDeck() {
     $.post("/api/Deck",
@@ -76,6 +77,16 @@ function postDeck() {
         .fail(function(){
             alert ("Creation failed. Check data")
         })
+};
+function deleteDeck() {
+    $.ajax({
+        type: "DELETE",
+        url: "/api/Deck",
+        data: "name=" + $("#saveDeckForm").serialize(),
+        error: (function(){
+            alert ("Delete failed. Check data")
+        })
+    })
 };
 function clearDeckList() {
     $('#decks').empty()
@@ -101,7 +112,13 @@ $(function main() {
     $('#shuffleDeck').click(function () {
         shuffleDeck();
         clearDeckComp();
-        //loadDeck();
+        loadDeck();
+
+    });
+    $('#deleteDeck').click(function () {
+        deleteDeck();
+        clearDeckComp();
+        loadDeckList();
 
     });
 });
