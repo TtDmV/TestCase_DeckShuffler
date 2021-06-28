@@ -27,9 +27,23 @@ namespace DeckShuffler.Controllers
         //{
         //    return deckRepo.GetDeckByName(name);
         //}
-        public List<string> Get(string name)
+        public List<string> Get(string name) //Не всю колоду а только список карт из за сложностей с пониманием вывода информации на морду
         {
             return deckRepo.GetDeckCompositionByName(name);
+        }
+
+        public HttpResponseMessage Get(string name, string method)
+        {
+            var response = new HttpResponseMessage();
+            if (this.deckRepo.ShuffleDeck(name, method))
+            {
+                response = Request.CreateResponse(System.Net.HttpStatusCode.OK);
+            }
+            else
+            {
+                response = Request.CreateResponse(System.Net.HttpStatusCode.Conflict);
+            }
+            return response;
         }
 
         public HttpResponseMessage Post(Deck deck)

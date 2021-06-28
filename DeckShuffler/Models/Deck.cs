@@ -10,17 +10,23 @@ namespace DeckShuffler.Models
 
     {
         public string Name { get; set; }
-        private List<Card> Cards = new List<Card>();
+        internal List<Card> Cards = new List<Card>();
         public List<string> CardNames =  new List<string>(); 
         
         public Deck GetDeck()
         {
+            this.RefreshCardNamesList();         
+            return this;            
+        } 
+        
+        internal void RefreshCardNamesList()
+        {
+            CardNames.Clear();
             foreach (Card card in this.Cards)
             {
                 this.CardNames.Add(card.GetCardName());
             }
-            return this;            
-        }    
+        }   
 
         public void AutoFill52Deck()
         {

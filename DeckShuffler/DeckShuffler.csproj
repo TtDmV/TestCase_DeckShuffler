@@ -249,6 +249,7 @@
     <Compile Include="Providers\ApplicationOAuthProvider.cs" />
     <Compile Include="Results\ChallengeResult.cs" />
     <Compile Include="Services\DeckRepo.cs" />
+    <Compile Include="Services\Shuffler.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -12,20 +12,34 @@
         <label for="deckName">Deck Name:</label><br />
         <input type="text" name="Name" />
     </p>
-    <input type="button" id="saveDeck" value="Save Deck" /> 
-    <input type="button" id="getDeck" value="Get Deck" /> 
+    
+        <input type="button" id="saveDeck" value="Save Deck" />      
+        <input type="button" id="getDeck" value="Get Deck" />
+    <p>
+        <br />
+        <select id="shuffleMethod">
+            <option>Simple</option>
+            <option>Manual</option>
+        </select>
+        <input type="button" id="shuffleDeck" value="Shuffle Deck" />
+    </p>
+    <p>
+        <h3>Deck Composition</h3>
+        <br />
+        <ol id="deckComposition"></ol>
+    </p>
 </form>
-<form id="deckComp" method="post">
+@*<form id="deckComp" method="post">
     <br />
     <h3>Deck Composition</h3>
     <br />
     <ol id="deckComposition"></ol>
     <br />
-</form>
+</form>*@
 @section scripts{
 <script type="text/javascript">
 function loadDeckList() {
-    setTimeout(function () { //Сделал через таймаут, не смог быстро разобраться в создании цепочки последовательных вызовов. Потратил 4 лишних часа.
+    setTimeout(function () { 
         $.getJSON('/api/Deck', function (decksJsonPayload) {
             $(decksJsonPayload).each(function (i, item) {
                 $('#decks').append('<li>' + item.Name + '</li>');
@@ -34,23 +48,27 @@ function loadDeckList() {
     }, 300);
 };
 function loadDeck() {
-    $.getJSON('/api/Deck?' + $("#saveDeckForm").serialize(),        
+    setTimeout(function () {
+        $.getJSON('/api/Deck?' + $("#saveDeckForm").serialize(),
+            function (decksJsonPayload) {
+                $(decksJsonPayload).each(function (i, item) {
+                    $('#deckComposition').append('<li>' + item + '</li>')
+                });
+            });
+    }, 300);
+};
+function shuffleDeck() {
+    var e = document.getElementById("shuffleMethod");
+    var mtd = e.options[e.selectedIndex].value;
+    setTimeout(function () {
+        $.getJSON('/api/Deck?' + $("#saveDeckForm").serialize() + '&' + 'method=' + mtd,
         function (decksJsonPayload) {
         $(decksJsonPayload).each(function (i, item) {
             $('#deckComposition').append('<li>' + item + '</li>') 
         });
-    });
+        });
+    }, 300);
 };
-//function loadDeck() {
-//    $.getJSON('/api/Deck?' + $("#saveDeckForm").serialize(),
-//        function (decksJsonPayload) {
-//            $(decksJsonPayload).each(function (i, item) {
-//                $('#deckComposition').append('<li>' + item.each(function (i, item) {
-//                    item.CardNames
-//                }) + '</li>')
-//            });
-//        });
-//};
 function postDeck() {
     $.post("/api/Deck",
     $("#saveDeckForm").serialize(),
@@ -79,6 +97,12 @@ $(function main() {
         clearDeckComp();
         loadDeck();
         
+    });
+    $('#shuffleDeck').click(function () {
+        shuffleDeck();
+        clearDeckComp();
+        //loadDeck();
+
     });
 });
 </script>

@@ -31,13 +31,16 @@ namespace DeckShuffler.Services
             if (ctx != null)
             {
                 var deckByName = ((Deck[])ctx.Cache[CacheKey]).Where(d => d.Name == deckName).FirstOrDefault(); // не делаем проверку на единственное значение, проверим на этапе создания
-                if (deckByName != null) return deckByName.GetDeck(); 
+                if (deckByName != null)
+                {
+                    return deckByName.GetDeck();
+                }
             }
 
             Console.WriteLine("Deck not found");
-            return null;
-            
+            return null;            
         }
+
         public List<string> GetDeckCompositionByName(string deckName) // для упрощения вывода получил только список карт
         {
             var ctx = HttpContext.Current;
@@ -104,6 +107,29 @@ namespace DeckShuffler.Services
 
             return false;
         }
-     
+
+        public bool ShuffleDeck(string deckName, string method)
+        {
+            var ctx = HttpContext.Current;
+            if (ctx != null)
+            {
+                try
+                {
+                    Deck deckToShuffle = GetDeckByName(deckName);
+                    Shuffler shf = new Shuffler();
+                    Deck shuffledDeck = shf.Shuffle(deckToShuffle, method);
+                    var currentData = ((Deck[])ctx.Cache[CacheKey]).ToList();
+                    currentData[currentData.IndexOf(deckToShuffle)] = shuffledDeck;
+                    ctx.Cache[CacheKey] = currentData.ToArray();
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.ToString());
+                    return false;
+                }            
+            }
+            return false;
+        }
     }
 }
