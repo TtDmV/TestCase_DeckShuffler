@@ -23,9 +23,13 @@ namespace DeckShuffler.Controllers
             return deckRepo.GetAllDecks();
         }
 
-        public Deck Get(string name)
+        //public Deck Get(string name)
+        //{
+        //    return deckRepo.GetDeckByName(name);
+        //}
+        public List<string> Get(string name)
         {
-            return deckRepo.GetDeckByName(name);
+            return deckRepo.GetDeckCompositionByName(name);
         }
 
         public HttpResponseMessage Post(Deck deck)

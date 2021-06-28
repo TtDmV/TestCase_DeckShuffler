@@ -38,6 +38,21 @@ namespace DeckShuffler.Services
             return null;
             
         }
+        public List<string> GetDeckCompositionByName(string deckName) // для упрощения вывода получил только список карт
+        {
+            var ctx = HttpContext.Current;
+
+            if (ctx != null)
+            {
+                var deckByName = ((Deck[])ctx.Cache[CacheKey]).Where(d => d.Name == deckName).FirstOrDefault(); // не делаем проверку на единственное значение, проверим на этапе создания
+                if (deckByName != null) return deckByName.GetDeck().CardNames;
+            }
+
+            Console.WriteLine("Deck not found");
+            return null;
+
+        }
+
 
         public DeckRepo()
         {

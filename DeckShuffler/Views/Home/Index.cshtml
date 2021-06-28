@@ -34,13 +34,23 @@ function loadDeckList() {
     }, 300);
 };
 function loadDeck() {
-    $.getJSON('/api/Deck?' + $("#saveDeckForm").serialize(),
+    $.getJSON('/api/Deck?' + $("#saveDeckForm").serialize(),        
         function (decksJsonPayload) {
         $(decksJsonPayload).each(function (i, item) {
-            $('#deckComposition').append('<li>' + item.CardNames + '</li>') 
+            $('#deckComposition').append('<li>' + item + '</li>') 
         });
     });
 };
+//function loadDeck() {
+//    $.getJSON('/api/Deck?' + $("#saveDeckForm").serialize(),
+//        function (decksJsonPayload) {
+//            $(decksJsonPayload).each(function (i, item) {
+//                $('#deckComposition').append('<li>' + item.each(function (i, item) {
+//                    item.CardNames
+//                }) + '</li>')
+//            });
+//        });
+//};
 function postDeck() {
     $.post("/api/Deck",
     $("#saveDeckForm").serialize(),
@@ -52,6 +62,10 @@ function postDeck() {
 function clearDeckList() {
     $('#decks').empty()
 };
+function clearDeckComp() {
+    $('#deckComposition').empty()
+};
+
 
 
 $(function main() {
@@ -62,7 +76,9 @@ $(function main() {
         loadDeckList();
     });
     $('#getDeck').click(function () {
+        clearDeckComp();
         loadDeck();
+        
     });
 });
 </script>
