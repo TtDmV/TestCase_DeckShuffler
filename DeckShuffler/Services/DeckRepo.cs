@@ -132,14 +132,14 @@ namespace DeckShuffler.Services
             return false;
         }
 
-        public bool DeleteDeck(string deckName)
+        public bool DeleteDeck(Deck deckName)
         {
             var ctx = HttpContext.Current;
 
             if (ctx != null)
             {
                 var currentData = ((Deck[])ctx.Cache[CacheKey]).ToList();
-                var deckByName = currentData.Where(d => d.Name == deckName).FirstOrDefault(); // не делаем проверку на единственное значение, проверим на этапе создания                
+                var deckByName = currentData.Where(d => d.Name == deckName.Name).FirstOrDefault(); // не делаем проверку на единственное значение, проверим на этапе создания                
                 if (deckByName != null) currentData.Remove(deckByName);
                 ctx.Cache[CacheKey] = currentData.ToArray();
                 return true;

@@ -61,7 +61,7 @@ namespace DeckShuffler.Controllers
         }
 
         [HttpDelete]
-        public IHttpActionResult Delete(string name)
+        public IHttpActionResult Delete(Deck name)
         {
             if (this.deckRepo.DeleteDeck(name))
                 return Ok();

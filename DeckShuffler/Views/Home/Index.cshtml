@@ -81,8 +81,8 @@ function postDeck() {
 function deleteDeck() {
     $.ajax({
         type: "DELETE",
-        url: "/api/Deck",
-        data: "name=" + $("#saveDeckForm").serialize(),
+        url: "/api/Deck/",
+        data: $("#saveDeckForm").serialize(),
         error: (function(){
             alert ("Delete failed. Check data")
         })
@@ -117,6 +117,7 @@ $(function main() {
     });
     $('#deleteDeck').click(function () {
         deleteDeck();
+        clearDeckList();
         clearDeckComp();
         loadDeckList();
 
