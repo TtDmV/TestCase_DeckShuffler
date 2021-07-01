@@ -61,14 +61,13 @@ function loadDeck() {
 function shuffleDeck() {
     var e = document.getElementById("shuffleMethod");
     var mtd = e.options[e.selectedIndex].value;
-        ($.getJSON('/api/Deck?' + $("#saveDeckForm").serialize() + '&' + 'method=' + mtd,
-        function (decksJsonPayload) {
+    ($.getJSON('/api/Deck?' + $("#saveDeckForm").serialize() + '&' + 'method=' + mtd,
+    function (decksJsonPayload) {
         $(decksJsonPayload).each(function (i, item) {
-            $('#deckComposition').append('<li>' + item + '</li>') 
+            $('#deckComposition').append('<li>' + item + '</li>')
+
         });
-        })).fail(function () {
-            alert("Shuffle failed. Check data")
-        });
+    }));
 };
 function postDeck() {
     $.post("/api/Deck",
@@ -105,11 +104,13 @@ $(function main() {
         loadDeckList();
     });
     $('#getDeck').click(function () {
+        debugger;
         clearDeckComp();
         loadDeck();
         
     });
     $('#shuffleDeck').click(function () {
+        debugger;
         shuffleDeck();
         clearDeckComp();
         loadDeck();

@@ -22,7 +22,7 @@ namespace DeckShuffler.Controllers
         {
             return deckRepo.GetAllDecks();
         }
-
+        //[HttpGet]
         //public Deck Get(string name)
         //{
         //    return deckRepo.GetDeckByName(name);

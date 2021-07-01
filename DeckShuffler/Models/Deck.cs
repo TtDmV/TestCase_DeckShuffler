@@ -10,7 +10,7 @@ namespace DeckShuffler.Models
 
     {
         public string Name { get; set; }
-        internal List<Card> Cards = new List<Card>();
+        public List<Card> Cards = new List<Card>();
         public List<string> CardNames =  new List<string>();  //Костыль, нужно правильно обработать имена карт и вывести их в морду
         
         public Deck GetDeck()

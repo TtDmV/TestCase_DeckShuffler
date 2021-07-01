@@ -9,6 +9,7 @@ namespace DeckShuffler.Models
     {
         public Suit suit;
         public CardNum num;
+        public string cardName { get { return this.GetCardName(); } }
 
         public Card(Suit cardSuit, CardNum cardNum)
         {
